@@ -1,0 +1,199 @@
+swagger: "2.0"
+info:
+  description: "API Rest para la gestion de tareas"
+  version: "1.0.0"
+  title: "ITEC PP1 - Challenge 2: TODO Task"
+host: "localhost:8080"
+basePath: "/v1"
+tags:
+- name: "Tareas"
+  description: "Operaciones sobre las tareas."
+schemes:
+- "http"
+paths:
+  /task:
+    post:
+      tags:
+      - "Tareas"
+      summary: "Agrega una nueva tarea"
+      description: ""
+      operationId: "addTask"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/Task"
+      responses:
+        "201":
+          description: "Operacion completada"
+          schema:
+            $ref: "#/definitions/Task"
+        "405":
+          description: "Request inválido"
+    get:
+      tags:
+      - "Tareas"
+      summary: "Buscar tareas"
+      description: ""
+      operationId: "findTask"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "pageSize"
+        in: "query"
+        description: ""
+        required: true
+        type: "integer"
+      - name: "pageNumber"
+        in: "query"
+        description: ""
+        required: true
+        type: "integer"
+      responses:
+        "200":
+          description: ""
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Task"
+  /task/{taskId}:
+    get:
+      tags:
+      - "Tareas"
+      summary: "Buscar una Tarea por el ID"
+      description: ""
+      operationId: "getTaskById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "taskId"
+        in: "path"
+        description: "ID de la tarea que se desea buscar"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "200":
+          description: "Operacion completada"
+          schema:
+            $ref: "#/definitions/Task"
+        "400":
+          description: "ID inválido"
+        "404":
+          description: "Tarea no encontrada"
+    put:
+      tags:
+      - "Tareas"
+      summary: "Actualiza una tarea"
+      description: ""
+      operationId: "updateTask"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "taskId"
+        in: "path"
+        description: "ID de la tarea que se quiere actualizar"
+        required: true
+        type: "integer"
+        format: "int64"
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/Task"
+      responses:
+        "200":
+          description: "Operación completada"
+          schema:
+            $ref: "#/definitions/Task"
+        "405":
+          description: "Request inválido"
+    patch:
+      tags:
+      - "Tareas"
+      summary: "Actualiza una tarea"
+      description: ""
+      operationId: "updateTasks"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "taskId"
+        in: "path"
+        description: "ID de la tarea que se quiere actualizar"
+        required: true
+        type: "integer"
+        format: "int64"
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/Task"
+      responses:
+        "200":
+          description: "Operación completada"
+          schema:
+            $ref: "#/definitions/Task"
+        "405":
+          description: "Request inválido"
+    delete:
+      tags:
+      - "Tareas"
+      summary: "Borra una tarea"
+      description: ""
+      operationId: "deleteTask"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "taskId"
+        in: "path"
+        description: ""
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "400":
+          description: "ID inválido"
+        "404":
+          description: "Tarea no encontrada"
+definitions:
+  Task:
+    type: "object"
+    required:
+    - "title"
+    - "description"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      title:
+        type: "string"
+      description:
+        type: "string"
+      creationDate:
+        type: "string"
+        format: "data-time"
+      completeDate:
+        type: "string"
+        format: "data-time"
+      user:
+        type: "string"
+      status:
+        type: "string"
+        description: "Estado de la tarea"
+        enum:
+        - "NEW"
+        - "ACTIVE"
+        - "IN_PROGRESS"
+        - "DONE"
+        - "BLOQUED"
+
+
